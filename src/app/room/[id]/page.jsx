@@ -2,9 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { fetchRoomById } from '../../services/api';
-import Navbar from '../../components/common/Navbar';
-import Footer from '../../components/common/Footer';
+import { fetchRoomById } from '@/services/api';
+import Navbar from '@/components/common/Navbar';
+import Footer from '@/components/common/Footer';
 
 export default function RoomDetail({ params }) {
   const router = useRouter();
