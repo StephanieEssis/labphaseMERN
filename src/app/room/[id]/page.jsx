@@ -1,19 +1,23 @@
-import { useRouter } from 'next/router';
+'use client';
+
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { fetchRoomById } from '../../services/api';
 import Navbar from '../../components/common/Navbar';
 import Footer from '../../components/common/Footer';
 
-export default function RoomDetail() {
+export default function RoomDetail({ params }) {
   const router = useRouter();
-  const { id } = router.query;
+  const { id } = params;
   const [room, setRoom] = useState(null);
 
   useEffect(() => {
     if (id) {
-      fetchRoomById(id).then(res => setRoom(res.data)).catch(err => {
-        console.error('Erreur lors de la récupération de la chambre:', err);
-      });
+      fetchRoomById(id)
+        .then(res => setRoom(res.data))
+        .catch(err => {
+          console.error('Erreur lors de la récupération de la chambre:', err);
+        });
     }
   }, [id]);
 
