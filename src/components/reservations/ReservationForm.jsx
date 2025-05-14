@@ -4,6 +4,8 @@ import { useState } from 'react';
 import axios from 'axios';
 
 export default function ReservationForm() {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,6 +15,7 @@ export default function ReservationForm() {
   });
 
   const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,8 +28,9 @@ export default function ReservationForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/bookings`, formData);
+      await axios.post(`${API_URL}/api/bookings`, formData);
       setSuccessMessage('Réservation effectuée avec succès !');
+      setErrorMessage('');
       setFormData({
         name: '',
         email: '',
@@ -36,7 +40,8 @@ export default function ReservationForm() {
       });
     } catch (error) {
       console.error(error);
-      alert('Erreur lors de la réservation');
+      setErrorMessage("Erreur lors de la réservation. Veuillez réessayer.");
+      setSuccessMessage('');
     }
   };
 
@@ -47,6 +52,12 @@ export default function ReservationForm() {
       {successMessage && (
         <div className="mb-4 p-3 bg-green-100 text-green-700 rounded">
           {successMessage}
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
+          {errorMessage}
         </div>
       )}
 
